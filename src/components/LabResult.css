@@ -1,0 +1,13 @@
+.LabResult {
+  padding: 10px;
+}
+
+.LabResult.active {
+  font-weight: bold;
+}
+
+.LabResult.active:after {
+  content: '\02192';
+  font-weight: bold;
+  padding-left: 20px;
+}
