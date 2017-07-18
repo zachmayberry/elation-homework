@@ -4,30 +4,18 @@ import './LabResults.css';
 
 import LabResult from './LabResult';
 
-let last_three_values = [];
-
 class LabResults extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {componentReady: false};
-  }
-
-  componentDidMount() {
-    const requestedID = 198024;
-    const data = this.props.results;
-    const requestedResultObject = _.findWhere(data, {result_id: requestedID});
-    const typeList = _.where(data, {name: requestedResultObject.name, patient_id: requestedResultObject.patient_id});
+  render() {
+    let last_three_values = [];
+    const requestedResultObject = _.findWhere(this.props.results, {result_id: this.props.requestedID});
+    const typeList = _.where(this.props.results, {name: requestedResultObject.name, patient_id: requestedResultObject.patient_id});
     const sortedTypeList = _.sortBy(typeList, function(data) { return data.date; }).reverse();
-    const requestedResultIndex = _.findIndex(sortedTypeList, {result_id: requestedID});
+    const requestedResultIndex = _.findIndex(sortedTypeList, {result_id: this.props.requestedID});
 
     for (let i = requestedResultIndex; i < requestedResultIndex + 4; i++) {
       last_three_values.push(sortedTypeList[i]);
     }
 
-    this.setState({componentReady: true});
-  }
-
-  render() {
     const listResults = last_three_values.map((value, key) => {
       let isActive = false;
       if (key === 0) isActive = true;
