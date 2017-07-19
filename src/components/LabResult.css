@@ -2,11 +2,11 @@
   padding: 10px;
 }
 
-.LabResult.active {
+.LabResultCurrent {
   font-weight: bold;
 }
 
-.LabResult.active:after {
+.LabResultCurrent:after {
   content: '\02192';
   font-weight: bold;
   padding-left: 20px;

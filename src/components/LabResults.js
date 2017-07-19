@@ -6,21 +6,15 @@ import LabResult from './LabResult';
 
 class LabResults extends Component {
   render() {
-    let last_three_values = [];
-    const requestedResultObject = _.findWhere(this.props.results, {result_id: this.props.requestedID});
-    const typeList = _.where(this.props.results, {name: requestedResultObject.name, patient_id: requestedResultObject.patient_id});
-    const sortedTypeList = _.sortBy(typeList, function(data) { return data.date; }).reverse();
-    const requestedResultIndex = _.findIndex(sortedTypeList, {result_id: this.props.requestedID});
+    // Retrieve results
+    const last_three_values = this.retrieveValues(this.props.requestedID, 4);
 
-    for (let i = requestedResultIndex; i < requestedResultIndex + 4; i++) {
-      last_three_values.push(sortedTypeList[i]);
-    }
-
+    // Generate list of results
     const listResults = last_three_values.map((value, key) => {
-      let isActive = false;
-      if (key === 0) isActive = true;
+      let isCurrent = false;
+      if (key === 0) isCurrent = true;
       return(
-        <LabResult key={value.result_id} name={value.name} value={value.value} active={isActive} />
+        <LabResult key={value.result_id} name={value.name} value={value.value} current={isCurrent} />
       );
     });
 
@@ -29,6 +23,37 @@ class LabResults extends Component {
         {listResults}
       </div>
     );
+  }
+
+  retrieveValues(requestedID,num) {
+    let requestedValues = [];
+    const results = this.props.results;
+
+    // Find requested result object by ID
+    const requestedResultObject = _.findWhere(
+      results,
+      {result_id: requestedID}
+    );
+    // Build list
+    const sortedTypeList = _.sortBy(
+      // Filter list
+      _.where(results, {name: requestedResultObject.name, patient_id: requestedResultObject.patient_id})
+      // Sort List
+      , function(data) { return data.date; })
+      .reverse();
+
+    // Grab index of request from filtered/sorted list
+    const requestedResultIndex = _.findIndex(
+      sortedTypeList,
+      {result_id: requestedID}
+    );
+
+    // Retrieve wanted results
+    for (let i = requestedResultIndex; i < requestedResultIndex + num; i++) {
+      requestedValues.push(sortedTypeList[i]);
+    }
+
+    return requestedValues;
   }
 }
 

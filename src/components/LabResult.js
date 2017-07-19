@@ -3,9 +3,10 @@ import './LabResult.css';
 
 class LabResult extends Component {
   render() {
-    let classList = 'LabResult';
-    if (this.props.active) {
-      classList += ' active';
+    // Mark current result
+    let classList = 'LabResult LabResultComparison';
+    if (this.props.current) {
+      classList = 'LabResult LabResultCurrent';
     }
 
     return (

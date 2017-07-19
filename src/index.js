@@ -4,5 +4,7 @@ import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const requestedID = 126;
+
+ReactDOM.render(<App requestedID={requestedID} combineData={false} />, document.getElementById('root'));
 registerServiceWorker();
