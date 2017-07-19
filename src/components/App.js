@@ -62,7 +62,7 @@ class App extends Component {
       lab_results,
       {result_id: requestedID}
     );
-
+    // Add selected item to top of list
     sampleList.unshift(requestedResultObject);
     return sampleList;
   }
